@@ -2,6 +2,7 @@ package com.example.contactsapp;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -39,20 +40,35 @@ public class MainActivity extends AppCompatActivity{
             int id = c.getInt(c.getColumnIndex(ContactsContract.Data.CONTACT_ID));
             String name = c.getString(c.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
             String data1 = c.getString(c.getColumnIndex(ContactsContract.Data.DATA1));
+            String mail=c.getString(c.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.ADDRESS));
+            String photo=c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.Photo.PHOTO));
             ContentValues contentValues = new ContentValues();
             contentValues.put("ID",id);
             contentValues.put("name",name);
             contentValues.put("phone",data1);
+            contentValues.put("mail",mail);
+            contentValues.put("photo",photo);
             db.insert(Provider.Entry.TABLE_NAME, null, contentValues);
         }
         c.close();
 
+
+        //On click listener on the listview
+
+
         petListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
+                Intent intent = new Intent(MainActivity.this, DispDetails.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
             }
         });
+
+
+        //Set all contacts to adapter
+
+
         db1=DbHelper.getReadableDatabase();
         Cursor todoCursor = db1.rawQuery("SELECT  * FROM contacts ORDER BY name ASC", null);
         mCursorAdapter =new CustomCursorAdapter(this, todoCursor);

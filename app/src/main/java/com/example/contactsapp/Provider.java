@@ -28,7 +28,9 @@ public final class Provider {
         public final static String COLUMN_CONTACT_ID ="ID" ;
         public final static String COLUMN_NAME = "name";
         public final static String COLUMN_PHONE = "phone";
-        //public final static String COLUMN_MAIL = "mail";
+        public final static String COLUMN_MAIL = "mail";
+        public final static String COLUMN_PHOTO="photo";
+
 
     }
 }
